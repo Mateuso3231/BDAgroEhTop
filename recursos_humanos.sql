@@ -1,0 +1,72 @@
+CREATE TABLE rh_funcionario (
+    ID INT PRIMARY KEY,
+    NOME VARCHAR(100),
+    DATA_NASCIMENTO DATE,
+    CPF VARCHAR(11) UNIQUE,
+    CARGO VARCHAR(50),
+    SALARIO float (10, 2),
+    DATA_CONTRATACAO DATE,
+    DATA_SAIDA DATE,
+    ENDERECO VARCHAR(200),
+    TELEFONE VARCHAR(15),
+    EMAIL VARCHAR(100),
+    INFORMACOES VARCHAR(250)
+);  
+
+CREATE TABLE rh_departamento (
+    DEPARTAMENTO VARCHAR(50),
+    COD_funcionarioID INT,
+    FOREIGN KEY (COD_funcionarioID) REFERENCES rh_funcionario(ID)
+);
+
+CREATE TABLE rh_folha_pagamento (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    COMISSAO_VENDA DECIMAL(10, 2),
+    COD_funcionarioID INT,
+    FOREIGN KEY (COD_funcionarioID) REFERENCES rh_funcionario(ID)
+);
+
+CREATE TABLE rh_registro_ponto (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    DATA_HORA_ENTRADA DATETIME,
+    DATA_HORA_SAIDA DATETIME,
+    COD_funcionarioID INT,
+    FOREIGN KEY (COD_funcionarioID) REFERENCES rh_funcionario(ID)
+);
+
+CREATE TABLE rh_beneficio (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    COD_funcionarioID INT,
+    TIPO_BENEFICIO VARCHAR(50),
+    VALOR DECIMAL(10, 2),
+    DATA_INICIO DATE,
+    DATA_TERMINO DATE,
+    FOREIGN KEY (COD_funcionarioID) REFERENCES rh_funcionario(ID)
+);
+
+CREATE TABLE rh_treinamento (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    NOME_TREINAMENTO VARCHAR(100),
+    DESCRICAO VARCHAR(300),
+    DATA_REALIZACAO DATE,
+    COD_funcionarioID INT,
+    FOREIGN KEY (COD_funcionarioID) REFERENCES rh_funcionario(ID)
+);
+
+CREATE TABLE rh_avaliacao (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    COD_funcionarioID INT,
+    DATA_AVALIACAO DATE,
+    NOTA DECIMAL(3, 2),
+    OBSERVACOES VARCHAR(300),
+    COD_treinamentoID INT,
+    FOREIGN KEY (COD_funcionarioID) REFERENCES rh_funcionario(ID)
+);
+
+CREATE TABLE rh_documento (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    COD_funcionarioID INT,
+    TIPO_DOCUMENTO VARCHAR(50),
+    CAMINHO_ARQUIVO VARCHAR(200),
+    FOREIGN KEY (COD_funcionarioID) REFERENCES rh_funcionario(ID)
+);
