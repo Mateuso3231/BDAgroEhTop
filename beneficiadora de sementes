@@ -1,0 +1,69 @@
+-- Tabela para armazenar informações sobre os clientes
+CREATE TABLE Cliente (
+    ClienteID INT PRIMARY KEY,
+    Nome VARCHAR(100),
+    Endereco VARCHAR(255),
+    Telefone VARCHAR(20)
+);
+
+-- Tabela para armazenar informações sobre os fornecedores de sementes
+CREATE TABLE Fornecedor (
+    FornecedorID INT PRIMARY KEY,
+    Nome VARCHAR(100),
+    Contato VARCHAR(100),
+    Telefone VARCHAR(20)
+);
+
+-- Tabela para armazenar informações sobre os tipos de sementes
+CREATE TABLE TipoSemente (
+    TipoSementeID INT PRIMARY KEY,
+    Nome VARCHAR(50),
+    Descricao VARCHAR(255)
+);
+
+-- Tabela para armazenar informações sobre os lotes de sementes
+CREATE TABLE LoteSemente (
+    LoteSementeID INT PRIMARY KEY,
+    TipoSementeID INT,
+    FornecedorID INT,
+    Quantidade INT,
+    DataEntrada DATE,
+    PrecoUnitario DECIMAL(10, 2),
+    FOREIGN KEY (TipoSementeID) REFERENCES TipoSemente(TipoSementeID),
+    FOREIGN KEY (FornecedorID) REFERENCES Fornecedor(FornecedorID)
+);
+
+-- Tabela para armazenar informações sobre o processo de beneficiamento
+CREATE TABLE Beneficiamento (
+    BeneficiamentoID INT PRIMARY KEY,
+    LoteSementeID INT,
+    DataInicio DATETIME,
+    DataConclusao DATETIME,
+    Observacoes TEXT,
+    FOREIGN KEY (LoteSementeID) REFERENCES LoteSemente(LoteSementeID)
+);
+
+-- Tabela para armazenar informações sobre os funcionários
+CREATE TABLE Funcionario (
+    FuncionarioID INT PRIMARY KEY,
+    Nome VARCHAR(100),
+    Cargo VARCHAR(50),
+    Salario DECIMAL(10, 2),
+    DataContratacao DATE
+);
+
+-- Tabela para registrar o histórico de atividades dos funcionários
+CREATE TABLE RegistroAtividade (
+    RegistroAtividadeID INT PRIMARY KEY,
+    FuncionarioID INT,
+    DataHora DATETIME,
+    Atividade VARCHAR(255),
+    FOREIGN KEY (FuncionarioID) REFERENCES Funcionario(FuncionarioID)
+);
+
+-- Tabela para rastrear o estoque de sementes beneficiadas
+CREATE TABLE Estoque (
+    LoteSementeID INT PRIMARY KEY,
+    QuantidadeEmEstoque INT,
+    FOREIGN KEY (LoteSementeID) REFERENCES LoteSemente(LoteSementeID)
+);
